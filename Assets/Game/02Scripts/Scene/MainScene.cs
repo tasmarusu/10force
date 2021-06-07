@@ -1,9 +1,6 @@
 ﻿/* *************************************************
 * InGameの始まりから終わりまでを監視する
 ************************************************* */
-
-
-
 namespace MainForce
 {
     using System.Collections;
@@ -14,8 +11,8 @@ namespace MainForce
     public class MainScene : MonoBehaviour
     {
         [SerializeField] private PlayerInput playerInput = null;
-
-
+        [SerializeField] private PlayerManager playerManager = null;
+        [SerializeField] private CameraManager cameraManager = null;
 
         private CompositeDisposable disposables = new CompositeDisposable();
 
@@ -33,7 +30,6 @@ namespace MainForce
         {
             this.playerInput.Init();
 
-
             this.SelectChara();
         }
 
@@ -48,14 +44,13 @@ namespace MainForce
             Observable.EveryUpdate().Subscribe(_ =>
             {
                 // 自機決定したら次へ
-                if (this.playerInput.IsClick() == true)
+                this.playerInput.OnClick().Subscribe(_ =>
                 {
                     this.disposables.Clear();
                     this.InGamePlay();
-                }
+
+                }).AddTo(disposables);
             }).AddTo(disposables);
-
-
         }
 
 
