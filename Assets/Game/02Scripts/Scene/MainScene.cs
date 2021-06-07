@@ -29,6 +29,7 @@ namespace MainForce
         private void Init()
         {
             this.playerInput.Init();
+            this.playerManager.Init(this.playerInput);
 
             this.SelectChara();
         }

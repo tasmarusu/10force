@@ -12,21 +12,29 @@ namespace MainForce
         [SerializeField] private PlayerController playerController = null;
         [SerializeField] private Transform playerParent = null;
 
-
-        public PlayerController player { get; private set; } = null;
+        public PlayerController Player { get; private set; } = null;
 
 
 
         /***************************************************
         * 初期化
         ************************************************** */
-        public void Init()
+        public void Init(PlayerInput input)
         {
             // プレイヤーの生成
-            player = Instantiate(playerController, playerParent);
+            this.Player = Instantiate(playerController, this.playerParent);
 
             // プレイヤーコントローラーの初期化
-            player.Init();
+            this.Player.Init(input);
+        }
+
+
+        /***************************************************
+        * プレイヤーの更新
+        ************************************************** */
+        public void OnUpdate()
+        {
+            this.Player.OnUpdate();
         }
     }
 }
