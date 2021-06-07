@@ -13,6 +13,7 @@ namespace MainForce
         [SerializeField] private Transform playerParent = null;
 
         public PlayerController Player { get; private set; } = null;
+        public PlayerModel Model { get; private set; } = null;
 
 
 
@@ -24,8 +25,9 @@ namespace MainForce
             // プレイヤーの生成
             this.Player = Instantiate(playerController, this.playerParent);
 
-            // プレイヤーコントローラーの初期化
+            // プレイヤー関連の初期化
             this.Player.Init(input);
+            this.Model = new PlayerModel();
         }
 
 
