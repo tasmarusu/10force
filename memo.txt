@@ -1,6 +1,8 @@
 プレイヤー
-VectorInt2 移動
+VectorInt2 移動量
 int 球を出したframe数 
+
+これゴーストで使おうと思った時にFixedUpdateじゃないと移動量がずれる可能性あり
 
 敵
 int 生成されてから生きたframe数
