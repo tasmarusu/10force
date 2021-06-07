@@ -6409,3 +6409,6 @@ Library/ScriptAssemblies/UniRx.Examples.pdb
 Library/ScriptAssemblies/UniRx.pdb
 obj/Debug/UniRx.csprojAssemblyReference.cache
 obj/Debug/UniRx.Examples.csprojAssemblyReference.cache
+Library/
+Logs/
+Temp/
