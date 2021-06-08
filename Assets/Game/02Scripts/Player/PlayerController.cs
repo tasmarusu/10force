@@ -14,16 +14,17 @@ namespace MainForce
         private static PlayerStateLose stateLose = new PlayerStateLose();                       // 敵に当たったもしくは玉に当たった
         private PlayerStateBase currentState = statePenetrating;    // プレイヤーの現在のステート
 
-        private PlayerInput playerInput = null;
+        private PlayerInput input = null;
+        private PlayerModel model = null;
 
 
         /***************************************************
         * 初期化
         ************************************************** */
-        public void Init(PlayerInput playerInput)
+        public void Init(PlayerInput input, PlayerModel model)
         {
-            this.playerInput = playerInput;
-
+            this.input = input;
+            this.model = model;
 
         }
 
@@ -33,6 +34,9 @@ namespace MainForce
         public void OnUpdate()
         {
             this.currentState.OnUpdate(this);
+
+            // 移動や角度などを設定する
+            //this.model.SetCharaValue()
         }
 
         /***************************************************

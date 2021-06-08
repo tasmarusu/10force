@@ -17,7 +17,7 @@ namespace MainForce
         // [ゴーストで使う] 特定フレームのみ プレイヤーが打ったフレーム数
         public List<int> ShotFrame { get; private set; } = new List<int>();
         // プレイヤーの今の座標
-        public Vector3 Pos { get; private set; } = Vector3.zero;
+        public Vector2 Pos { get; private set; } = Vector2.zero;
 
 
         /***************************************************
@@ -28,11 +28,27 @@ namespace MainForce
             this.MoveValue = new List<Vector2Int>();
             this.AngleValue = new List<float>();
             this.ShotFrame = new List<int>();
-            this.Pos = Vector3.zero;
+            this.Pos = Vector2.zero;
         }
         public PlayerModel()
         {
             this.Init();
+        }
+
+        /***************************************************
+        * 初期化
+        ************************************************** */
+        // 毎フレーム入れる
+        public void SetCharaValue(Vector2Int move, float angle, Vector2 pos)
+        {
+            this.MoveValue.Add(move);
+            this.AngleValue.Add(angle);
+            this.Pos = pos;
+        }
+        // 特定のフレームのみ入れる
+        public void SetShotValue(int shotFrame)
+        {
+            this.ShotFrame.Add(shotFrame);
         }
     }
 }

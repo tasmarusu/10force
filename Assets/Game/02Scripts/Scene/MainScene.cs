@@ -35,13 +35,19 @@ namespace MainForce
         }
 
 
-        /// <summary>
-        /// InGame で使う 自機 を決める
-        /// </summary>
+        /***************************************************
+        * ゲームが開始してキャラ選択するまでの時間
+        ************************************************** */
+        private void InScene()
+        {
+
+        }
+
+        /***************************************************
+        * InGame で使う 自機 を決める
+        ************************************************** */
         private void SelectChara()
         {
-            Debug.Log($"SelectChara {Time.frameCount}");
-
             Observable.EveryUpdate().Subscribe(_ =>
             {
                 // 自機決定したら次へ
@@ -54,10 +60,9 @@ namespace MainForce
             }).AddTo(disposables);
         }
 
-
-        /// <summary>
-        /// InGame で使う関数などの呼び出し
-        /// </summary>
+        /***************************************************
+        * InGame 時間経過し始めた時点で使う関数などの呼び出し
+        ************************************************** */
         private void InGamePlay()
         {
             Observable.EveryUpdate().Subscribe(_ =>

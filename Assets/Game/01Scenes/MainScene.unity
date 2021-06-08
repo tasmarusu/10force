@@ -387,5 +387,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 505a5ed453f3d2b498f97b840b4f7173, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerController: {fileID: 0}
+  playerController: {fileID: 706689766410507525, guid: dd8c3cb53d88f1343855333116a019a1, type: 3}
   playerParent: {fileID: 1586396289}

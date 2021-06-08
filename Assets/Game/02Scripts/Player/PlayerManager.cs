@@ -26,8 +26,8 @@ namespace MainForce
             this.Player = Instantiate(playerController, this.playerParent);
 
             // プレイヤー関連の初期化
-            this.Player.Init(input);
             this.Model = new PlayerModel();
+            this.Player.Init(input, this.Model);
         }
 
 
