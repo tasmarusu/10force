@@ -3,10 +3,13 @@
 ************************************************* */
 namespace MainForce
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
     using UniRx;
+    using UnityEngine.SceneManagement;
+    //using Cysharp.Threading.Tasks;
 
     public class MainScene : MonoBehaviour
     {
@@ -30,9 +33,21 @@ namespace MainForce
         {
             this.playerInput.Init();
             this.playerManager.Init(this.playerInput);
-
             this.SelectChara();
         }
+
+
+        /***************************************************
+        * ゲームが開始してキャラ選択するまでの時間
+        ************************************************** */
+        //private async UniTaskVoid LoadMainUI(Action action)
+        //{
+        //    await SceneManager.LoadSceneAsync("MainSceneUI", LoadSceneMode.Additive);
+
+
+
+        //    action.Invoke();
+        //}
 
 
         /***************************************************
