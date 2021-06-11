@@ -24,22 +24,80 @@ namespace MainForce
         private CompositeDisposable disposables = new CompositeDisposable();
 
 
+
+        public enum State
+        {
+            /// <summary>
+            /// 待機状態 基本使わない予定
+            /// </summary>
+            Wait = 1,
+            /// <summary>
+            /// MainScene で使う UI のロード
+            /// </summary>
+            LoadUI = 5,
+            /// <summary>
+            /// GameMain で使われる物の初期化
+            /// </summary>
+            Init = 6,
+            /// <summary>
+            /// キャラが出現する時
+            /// </summary>
+            CharaLarge = 10,
+            /// <summary>
+            /// キャラ選択状態
+            /// </summary>
+            CharaSelect = 20,
+            /// <summary>
+            /// ゲームをプレイしている時
+            /// </summary>
+            PlayGame = 30,
+        }
+
+
         private void Start()
         {
-            this.Init();
+            this.ChangeState(State.LoadUI);
         }
 
 
-        /// <summary>
-        /// 全体の初期化
-        /// </summary>
-        private void Init()
+
+        /***************************************************
+        * ステートの切り替え
+        * <param name="nextState"> 遷移するステート </param>
+        ************************************************** */
+        public void ChangeState(State nextState)
         {
-            StartCoroutine(this.LoadMainUI());
-            this.playerInput.Init();
-            this.playerManager.Init(this.playerInput);
-            this.SelectChara();
+            switch (nextState)
+            {
+                case State.Wait:
+                    break;
+
+                case State.LoadUI:
+                    this.StartCoroutine(this.LoadMainUI());
+
+                    break;
+
+                case State.Init:
+                    this.playerInput.Init();
+                    this.playerManager.Init(this.playerInput);
+                    this.SelectChara();
+
+                    break;
+
+                case State.CharaLarge:
+
+                    break;
+
+                case State.CharaSelect:
+
+                    break;
+
+                case State.PlayGame:
+
+                    break;
+            }
         }
+
 
 
         /***************************************************
@@ -48,6 +106,8 @@ namespace MainForce
         private IEnumerator LoadMainUI()
         {
             yield return SceneManager.LoadSceneAsync("MainSceneUI", LoadSceneMode.Additive);
+
+            MainSceneUI.Instance.Init();
         }
 
         /***************************************************
@@ -55,7 +115,7 @@ namespace MainForce
         ************************************************** */
         private void InScene()
         {
-
+            
         }
 
         /***************************************************

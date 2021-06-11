@@ -8,7 +8,7 @@ namespace MainForce
     using UnityEngine;
     using UniRx;
 
-    public class PlayerModel : MonoBehaviour
+    public class PlayerModel
     {
         // [ゴーストで使う] 毎フレーム入れる プレイヤーが１フレームで移動した量
         public List<Vector2Int> MoveValue { get; private set; } = new List<Vector2Int>();
