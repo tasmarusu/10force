@@ -21,11 +21,10 @@ namespace MainForce
         /***************************************************
         * 初期化
         ************************************************** */
-        public void Init(PlayerInput input, PlayerModel model)
+        public void Init(PlayerModel model)
         {
-            this.input = input;
+            this.input = MainSceneUI.Instance.PlayerInput;
             this.model = model;
-
         }
 
         /***************************************************
@@ -42,11 +41,24 @@ namespace MainForce
         /***************************************************
         * ステートの切り替え
         ************************************************** */
-        public void ChangeState(PlayerStateBase nextState)
+        private void ChangeState(PlayerStateBase nextState)
         {
             this.currentState.OnExit(this, nextState);
             nextState.OnEnter(this, this.currentState);
             currentState = nextState;
+        }
+
+
+        /***************************************************
+        * プレイヤーの移動
+        ************************************************** */
+        private void Move()
+        {
+            float moveValue = 2.0f;
+
+            Vector2 pos = this.transform.position;
+            pos += this.input.GetAxis() * moveValue;
+            this.transform.position = pos;
         }
     }
 }

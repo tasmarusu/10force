@@ -25,13 +25,22 @@ namespace MainForce
         }
 
 
-        /// <summary>
-        /// クリックをした時
-        /// </summary>
-        /// <returns></returns>
+        /***************************************************
+        * クリックをした時
+        ************************************************** */
         public IObservable<PointerEventData> OnClick()
         {
             return judgeImage.OnPointerClickAsObservable();
+        }
+
+        /***************************************************
+        * 横縦 軸の量
+        ************************************************** */
+        public Vector2 GetAxis()
+        {
+            float x = Input.GetAxis("Horizontal");
+            float y = Input.GetAxis("Vertical");
+            return new Vector2(x, y);
         }
     }
 }

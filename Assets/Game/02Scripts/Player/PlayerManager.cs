@@ -20,14 +20,14 @@ namespace MainForce
         /***************************************************
         * 初期化
         ************************************************** */
-        public void Init(PlayerInput input)
+        public void Init()
         {
             // プレイヤーの生成
             this.Player = Instantiate(playerController, this.playerParent);
 
             // プレイヤー関連の初期化
             this.Model = new PlayerModel();
-            this.Player.Init(input, this.Model);
+            this.Player.Init(this.Model);
         }
 
 

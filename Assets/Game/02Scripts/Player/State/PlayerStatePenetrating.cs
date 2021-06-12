@@ -21,7 +21,7 @@ namespace MainForce
             {
                 base.OnUpdate(owner);
 
-
+                owner.Move();
             }
 
             public override void OnExit(PlayerController owner, PlayerStateBase prevState)

@@ -17,7 +17,6 @@ namespace MainForce
 
     public class MainScene : MonoBehaviour
     {
-        [SerializeField] private PlayerInput playerInput = null;
         [SerializeField] private PlayerManager playerManager = null;
         [SerializeField] private CameraManager cameraManager = null;
 
@@ -78,21 +77,29 @@ namespace MainForce
                     break;
 
                 case State.Init:
-                    this.playerInput.Init();
-                    this.playerManager.Init(this.playerInput);
-                    this.SelectChara();
+                    this.playerManager.Init();
+                    this.ChangeState(State.CharaLarge);
 
                     break;
 
                 case State.CharaLarge:
+                    this.ChangeState(State.PlayGame);
+
 
                     break;
 
                 case State.CharaSelect:
+                    this.SelectChara();
+
 
                     break;
 
                 case State.PlayGame:
+                    Observable.EveryUpdate()
+                        .Subscribe(_ =>
+                        {
+                            this.playerManager.OnUpdate();
+                        }).AddTo(this.disposables);
 
                     break;
             }
@@ -108,6 +115,7 @@ namespace MainForce
             yield return SceneManager.LoadSceneAsync("MainSceneUI", LoadSceneMode.Additive);
 
             MainSceneUI.Instance.Init();
+            this.ChangeState(State.Init);
         }
 
         /***************************************************
@@ -126,7 +134,7 @@ namespace MainForce
             Observable.EveryUpdate().Subscribe(_ =>
             {
                 // 自機決定したら次へ
-                this.playerInput.OnClick().Subscribe(_ =>
+                MainSceneUI.Instance.PlayerInput.OnClick().Subscribe(_ =>
                 {
                     this.disposables.Clear();
                     this.InGamePlay();
