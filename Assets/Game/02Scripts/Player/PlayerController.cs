@@ -9,11 +9,13 @@ namespace MainForce
 
     public partial class PlayerController : MonoBehaviour
     {
+        // ステート管理
         private static PlayerStatePenetrating statePenetrating = new PlayerStatePenetrating();  // 貫通玉
         private static PlayerStateWin stateWin = new PlayerStateWin();                          // 全ての敵を撃破
         private static PlayerStateLose stateLose = new PlayerStateLose();                       // 敵に当たったもしくは玉に当たった
         private PlayerStateBase currentState = statePenetrating;    // プレイヤーの現在のステート
 
+        // private 変数
         private PlayerInput input = null;
         private PlayerModel model = null;
 
@@ -52,6 +54,7 @@ namespace MainForce
         /***************************************************
         * プレイヤーの移動
         ************************************************** */
+        // 移動
         private void Move()
         {
             float moveValue = 2.0f;
@@ -59,6 +62,11 @@ namespace MainForce
             Vector2 pos = this.transform.position;
             pos += this.input.GetAxis() * moveValue;
             this.transform.position = pos;
+        }
+        // 円から出た分座標を戻す
+        private void OutgoingPosCoordinates()
+        {
+
         }
     }
 }
