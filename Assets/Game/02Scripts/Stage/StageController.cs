@@ -7,32 +7,34 @@ namespace MainForce
     using System.Collections.Generic;
     using UnityEngine;
 
+    public enum ColliderType
+    {
+        /// <summary>
+        /// 円型 の当たり判定
+        /// </summary>
+        Circle = 0,
+        /// <summary>
+        /// 箱型 の当たり判定
+        /// </summary>
+        Box = 1,
+    }
+
     public class StageController : MonoBehaviour
     {
-        [SerializeField] private ColliderType useType = ColliderType.Circle;
-        private Circle circle;
-        private Box box;
+        [field : SerializeField] public ColliderType UseType { get; private set; } = ColliderType.Circle;
+        public CircleStruct Circle { get; private set; }
+        public BoxStruct Box { get; private set; }
 
-        private enum ColliderType
-        {
-            /// <summary>
-            /// 円型 の当たり判定
-            /// </summary>
-            Circle = 0,
-            /// <summary>
-            /// 箱型 の当たり判定
-            /// </summary>
-            Box = 1,
-        }
+        private StageManager stageManager = null;
 
 
         /***************************************************
         * Collider によって決まった構造体の中身を決める
         ************************************************** */
         // 円型
-        struct Circle
+        public struct CircleStruct
         {
-            public Circle(Vector2 pos, float radius, CircleCollider2D collider)
+            public CircleStruct(Vector2 pos, float radius, CircleCollider2D collider)
             {
                 this.Pos = pos;
                 this.Radius = radius;
@@ -43,9 +45,9 @@ namespace MainForce
             public CircleCollider2D Collider { get; }  // 当たり判定
         }
         // 箱型
-        struct Box
+        public struct BoxStruct
         {
-            public Box(Vector2 pos, float width, float height, BoxCollider2D collider)
+            public BoxStruct(Vector2 pos, float width, float height, BoxCollider2D collider)
             {
                 this.Pos = pos;
                 this.Width = width;
@@ -61,15 +63,17 @@ namespace MainForce
         /***************************************************
         * メインゲームのUIをロードする
         ************************************************** */
-        public void Init()
+        public void Init(StageManager stageManager)
         {
+            this.stageManager = stageManager;
+
             Vector2 pos = this.transform.position;
-            switch (this.useType)
+            switch (this.UseType)
             {
                 case ColliderType.Circle:
                     CircleCollider2D circleCollider = GetComponent<CircleCollider2D>();
                     float radius = circleCollider.radius;
-                    this.circle = new Circle(pos, radius, circleCollider);
+                    this.Circle = new CircleStruct(pos, radius, circleCollider);
 
                     break;
 
@@ -77,28 +81,29 @@ namespace MainForce
                     BoxCollider2D boxCollider = GetComponent<BoxCollider2D>();
                     float width = boxCollider.bounds.size.x;
                     float height = boxCollider.bounds.size.y;
-                    this.box = new Box(pos, width, height, boxCollider);
+                    this.Box = new BoxStruct(pos, width, height, boxCollider);
 
                     break;
             }
         }
 
         /***************************************************
-        * メインゲームのUIをロードする
+        * このステージでプレイヤーが外に出てるかどうか
         ************************************************** */
-        public void OutgoingPosCoordinates(Vector2 playerPos)
+        public bool IsOutPlayerPos(Vector2 playerPos)
         {
             Vector2 pos = this.transform.position;
 
             // 範囲外にいるかどうかの判定
-            switch (this.useType)
+            switch (this.UseType)
             {
                 case ColliderType.Circle:
                     // プレイヤーと球の距離と球の半径から範囲外か決める
                     float dis = Vector2.Distance(playerPos, pos);
-                    if (dis > this.circle.Radius)
+                    if (dis > this.Circle.Radius)
                     {
                         // 範囲外
+                        return true;
                     }
 
                     break;
@@ -110,35 +115,43 @@ namespace MainForce
 
                     // 範囲外なら最短距離の位置へ両方戻す
                     // 縦
-                    if (height > this.box.Height)
+                    if (height > this.Box.Height)
                     {
                         // 範囲外
                         // float value = height - this.box.Height;
+                        return true;
                     }
                     // 横
-                    if (width > this.box.Width)
+                    if (width > this.Box.Width)
                     {
                         // 範囲外
                         // float value = width - this.box.Width;
+                        return true;
                     }
 
                     break;
             }
 
-            // 全てのステージが入ってない時は座標を戻す
-            // これ StageManager で取るべき
+            // 範囲外に出ていないので false を返す
+            return false;
+        }
 
-            // 1.近い方の当たり判定の座標を確認
 
-            // 円形
-            // 1.プレイヤーから球体のベクトルを取る
-            // 2.プレイヤーと球体の距離 - 球体の半径 = プレイヤーが戻る量
+        /***************************************************
+        * このステージの中心とプレイヤーとの距離
+        ************************************************** */
+        public float GetStageToPlayerDistance(Vector2 playerPos)
+        {
+            return Vector2.Distance(this.transform.position, playerPos);
+        }
 
-            // 四角形
-            // 1.上に出てたら下に プレイヤーの縦座標 - 四角形の高さ = プレイヤーが下に戻る量
-            // 2 下に出てたら上に プレイヤーの縦座標 - 四角形の高さ = プレイヤーが上に戻る量
-            // 3 右に出ていたら左に プレイヤーの横座標 - 四角形の長さ = プレイヤーが左に戻る量
-            // 4 左に出ていたら右に プレイヤーの横座標 - 四角形の長さ = プレイヤーが左に戻る量
+
+        /***************************************************
+        * このステージの中心とプレイヤーとのベクトル
+        ************************************************** */
+        public Vector2 GetStageToPlayerVec(Vector2 playerPos)
+        {
+            return ((Vector2)this.transform.position - playerPos).normalized;
         }
     }
 }
