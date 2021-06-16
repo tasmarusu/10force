@@ -10,7 +10,9 @@ namespace MainForce
 
     public class StageManager : MonoBehaviour
     {
-        public StageController[] StageController { get; private set; } = null;
+        [SerializeField] private StageGroup[] Groups = null;
+
+        public StageGroup useStage { get; private set; } = null;
 
 
         /***************************************************
@@ -18,23 +20,32 @@ namespace MainForce
         ************************************************* */
         public void Init()
         {
+            // 使うステージをランダム生成 TODO 後で決め打ちするように変更
+            int num = Random.Range(0, this.Groups.Length);
+            this.useStage = Instantiate(this.Groups[num], this.transform);
 
+            // 初期化
+            for (int i = 0; i < this.useStage.Controllers.Length; i++)
+            {
+                this.useStage.Init();
+            }
         }
 
 
         /// <summary>
-        /// プレイヤーの座標を戻す
+        /// プレイヤーの座標を内側に戻す
         /// </summary>
-        /// <returns> プレイヤーの戻る補正値 </returns>
-        public Vector2 Coodinate(Vector2 playerPos)
+        /// <returns> プレイヤーの補正された座標 </returns>
+        public Vector2 ReplaceOutPlayerPos(Vector2 playerPos)
         {
-            int stageCount = this.StageController.Length;
+            StageController[] controllers = this.useStage.Controllers;
+            int stageCount = controllers.Length;
             bool[] isOutStagePos = Enumerable.Repeat<bool>(false, stageCount).ToArray();
 
             // 全てのステージが入ってないかどうか調べる
-            for (int i = 0; i < this.StageController.Length; i++)
+            for (int i = 0; i < controllers.Length; i++)
             {
-                isOutStagePos[i] = this.StageController[i].IsOutPlayerPos(playerPos);
+                isOutStagePos[i] = controllers[i].IsOutPlayerPos(playerPos);
 
                 // false なら一個は入ってる
                 if (isOutStagePos[i] == false)
@@ -45,10 +56,10 @@ namespace MainForce
 
             // 入ってないので近い方はどのステージかを調べる
             int nearNum = 0;
-            float nearDistance = this.StageController[0].GetStageToPlayerDistance(playerPos);
-            for (int i = 1; i < this.StageController.Length; i++)
+            float nearDistance = controllers[0].GetStageToPlayerDistance(playerPos);
+            for (int i = 1; i < controllers.Length; i++)
             {
-                float dis = this.StageController[i].GetStageToPlayerDistance(playerPos);
+                float dis = controllers[i].GetStageToPlayerDistance(playerPos);
                 if (dis < nearDistance)
                 {
                     nearDistance = dis;
@@ -56,11 +67,11 @@ namespace MainForce
                 }
             }
 
-            // 調べた結果のステージを入れる
-            StageController nearStage = this.StageController[nearNum];
+            // 調べた結果近いステージを入れる
+            StageController nearStage = controllers[nearNum];
 
             // 外に出ないように戻す
-            Vector2 backValue = Vector2.zero;
+            Vector2 replacePlayerPos = Vector2.zero;
             switch (nearStage.UseType)
             {
                 // 円形
@@ -70,7 +81,7 @@ namespace MainForce
                     Vector2 vec = nearStage.GetStageToPlayerVec(playerPos);
                     float dis = nearStage.GetStageToPlayerDistance(playerPos);
                     float radius = nearStage.Circle.Radius;
-                    backValue = (dis - radius) * vec;
+                    replacePlayerPos = playerPos + ((dis - radius) * vec);
 
                     break;
 
@@ -80,13 +91,18 @@ namespace MainForce
                 // 3 右に出ていたら左に プレイヤーの横座標 - 四角形の長さ = プレイヤーが左に戻る量
                 // 4 左に出ていたら右に プレイヤーの横座標 - 四角形の長さ = プレイヤーが左に戻る量
                 case ColliderType.Box:
-
-
+                    Vector2 stagePos = nearStage.Box.Pos;
+                    float min = stagePos.x - nearStage.Box.Width * 0.5f;
+                    float max = stagePos.x + nearStage.Box.Width * 0.5f;
+                    replacePlayerPos.x = Mathf.Clamp(playerPos.x, min, max);
+                    min = stagePos.y - nearStage.Box.Height * 0.5f;
+                    max = stagePos.y + nearStage.Box.Height * 0.5f;
+                    replacePlayerPos.y = Mathf.Clamp(playerPos.y, min, max);
 
                     break;
             }
 
-            return backValue;
+            return replacePlayerPos;
         }
     }
 }

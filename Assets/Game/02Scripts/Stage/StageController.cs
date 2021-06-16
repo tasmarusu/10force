@@ -1,5 +1,6 @@
 /* *************************************************
 * StageController ステージの形などを保持
+*                 この親に StageGroup が付いている
 ************************************************* */
 namespace MainForce
 {
@@ -24,8 +25,6 @@ namespace MainForce
         [field : SerializeField] public ColliderType UseType { get; private set; } = ColliderType.Circle;
         public CircleStruct Circle { get; private set; }
         public BoxStruct Box { get; private set; }
-
-        private StageManager stageManager = null;
 
 
         /***************************************************
@@ -61,12 +60,10 @@ namespace MainForce
         }
 
         /***************************************************
-        * メインゲームのUIをロードする
+        * 初期化
         ************************************************** */
-        public void Init(StageManager stageManager)
+        public void Init()
         {
-            this.stageManager = stageManager;
-
             Vector2 pos = this.transform.position;
             switch (this.UseType)
             {
