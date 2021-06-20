@@ -21,7 +21,7 @@ namespace MainForce
         /// </summary>
         public void Init()
         {
-            Debug.Log($"{this} の初期化");
+
         }
 
 

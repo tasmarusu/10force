@@ -78,7 +78,7 @@ namespace MainForce
                     break;
 
                 case State.Init:
-                    this.playerManager.Init();
+                    this.playerManager.Init(this.stageManager);
                     this.stageManager.Init();
                     this.ChangeState(State.CharaLarge);
 

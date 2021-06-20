@@ -18,15 +18,17 @@ namespace MainForce
         // private 変数
         private PlayerInput input = null;
         private PlayerModel model = null;
+        private StageManager stageManager = null;
 
 
         /***************************************************
         * 初期化
         ************************************************** */
-        public void Init(PlayerModel model)
+        public void Init(PlayerModel model, StageManager stageManager)
         {
             this.input = MainSceneUI.Instance.PlayerInput;
             this.model = model;
+            this.stageManager = stageManager;
         }
 
         /***************************************************
@@ -57,16 +59,12 @@ namespace MainForce
         // 移動
         private void Move()
         {
-            float moveValue = 2.0f;
+            float moveValue = GameConfig.Instance.Player.speed;
 
             Vector2 pos = this.transform.position;
-            pos += this.input.GetAxis() * moveValue;
+            pos += this.input.GetAxis() * moveValue;        // 仮移動
+            pos = stageManager.ReplaceOutPlayerPos(pos);    // 移動値が抜けていれば位置修正する
             this.transform.position = pos;
-        }
-        // 円から出た分座標を戻す
-        private void OutgoingPosCoordinates()
-        {
-
         }
     }
 }

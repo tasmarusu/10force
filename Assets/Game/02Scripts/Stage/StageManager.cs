@@ -50,7 +50,7 @@ namespace MainForce
                 // false ‚È‚çˆêŒÂ‚Í“ü‚Á‚Ä‚é
                 if (isOutStagePos[i] == false)
                 {
-                    return Vector3.zero;
+                    return playerPos;
                 }
             }
 

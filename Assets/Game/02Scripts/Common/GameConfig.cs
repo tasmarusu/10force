@@ -28,7 +28,7 @@ namespace MainForce
             {
                 if (instance == null)
                 {
-                    string path = "";
+                    string path = "GameConfig";
                     instance = Resources.Load<GameConfig>(path);
                 }
                 return instance;

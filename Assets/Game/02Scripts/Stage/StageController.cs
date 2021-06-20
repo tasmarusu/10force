@@ -22,7 +22,7 @@ namespace MainForce
 
     public class StageController : MonoBehaviour
     {
-        [field : SerializeField] public ColliderType UseType { get; private set; } = ColliderType.Circle;
+        [field: SerializeField] public ColliderType UseType { get; private set; } = ColliderType.Circle;
         public CircleStruct Circle { get; private set; }
         public BoxStruct Box { get; private set; }
 
@@ -69,7 +69,7 @@ namespace MainForce
             {
                 case ColliderType.Circle:
                     CircleCollider2D circleCollider = GetComponent<CircleCollider2D>();
-                    float radius = circleCollider.radius;
+                    float radius = circleCollider.bounds.size.x * 0.5f;
                     this.Circle = new CircleStruct(pos, radius, circleCollider);
 
                     break;
@@ -97,6 +97,7 @@ namespace MainForce
                 case ColliderType.Circle:
                     // プレイヤーと球の距離と球の半径から範囲外か決める
                     float dis = Vector2.Distance(playerPos, pos);
+                    Debug.Log($"dis {dis} radius { this.Circle.Radius}");
                     if (dis > this.Circle.Radius)
                     {
                         // 範囲外
