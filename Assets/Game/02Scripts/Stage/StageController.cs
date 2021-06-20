@@ -76,8 +76,8 @@ namespace MainForce
 
                 case ColliderType.Box:
                     BoxCollider2D boxCollider = GetComponent<BoxCollider2D>();
-                    float width = boxCollider.bounds.size.x;
-                    float height = boxCollider.bounds.size.y;
+                    float width = boxCollider.bounds.size.x * 0.5f;
+                    float height = boxCollider.bounds.size.y * 0.5f;
                     this.Box = new BoxStruct(pos, width, height, boxCollider);
 
                     break;
@@ -97,7 +97,6 @@ namespace MainForce
                 case ColliderType.Circle:
                     // プレイヤーと球の距離と球の半径から範囲外か決める
                     float dis = Vector2.Distance(playerPos, pos);
-                    Debug.Log($"dis {dis} radius { this.Circle.Radius}");
                     if (dis > this.Circle.Radius)
                     {
                         // 範囲外
