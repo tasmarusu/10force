@@ -64,6 +64,12 @@ namespace MainForce
         ************************************************** */
         public void Init()
         {
+            this.SetStructData();
+        }
+
+
+        private void SetStructData()
+        {
             Vector2 pos = this.transform.position;
             switch (this.UseType)
             {
