@@ -66,5 +66,14 @@ namespace MainForce
             pos = stageManager.ReplaceOutPlayerPos(pos);    // 移動値が抜けていれば位置修正する
             this.transform.position = pos;
         }
+
+
+        /***************************************************
+        * プレイヤーの射撃
+        ************************************************** */
+        public void Shot()
+        {
+            
+        }
     }
 }
