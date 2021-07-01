@@ -1,7 +1,6 @@
 /* *************************************************
 * StageGroup 1つのステージの形全てを管理
-*            この子供に StageController が付いている 
-*            Unirxのやつは複数に対応してなさそうだったので不採用
+*            この子供に StageController が付いている
 ************************************************* */
 namespace MainForce
 {
@@ -12,7 +11,10 @@ namespace MainForce
 
     public class BulletPool : MonoBehaviour
     {
-        [SerializeField] private PenetratingBulletGroup penetratingGroup = null;
+        [SerializeField] private PenetratingBulletPool penetratingGroup = null;
+
+
+
 
 
         ///***************************************************

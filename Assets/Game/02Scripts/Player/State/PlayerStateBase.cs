@@ -23,6 +23,13 @@ namespace MainForce
             * このステートから出る時に呼ばれる
             ************************************************* */
             public virtual void OnExit(PlayerController owner, PlayerStateBase nextState) { }
+            /* *************************************************
+            * ショット
+            ************************************************* */
+            protected virtual void OnShot(PlayerController owner) 
+            {
+                owner.Shot();
+            }
         }
     } 
 }
