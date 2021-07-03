@@ -10,6 +10,6 @@ namespace MainForce
 
     public class BulletController : MonoBehaviour
     {
-        
+
     }
 }

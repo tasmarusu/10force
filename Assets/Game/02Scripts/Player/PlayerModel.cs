@@ -18,21 +18,24 @@ namespace MainForce
         public List<int> ShotFrame { get; private set; } = new List<int>();
         // プレイヤーの今の座標
         public Vector2 Pos { get; private set; } = Vector2.zero;
+        // プレイヤーが今回使う弾
+        public GameConfig.PlayerShotType ShotType { get; private set; } = GameConfig.PlayerShotType.None;
 
 
         /***************************************************
         * 初期化
         ************************************************** */
-        public void Init()
+        public void Init(GameConfig.PlayerShotType shotType)
         {
             this.MoveValue = new List<Vector2Int>();
             this.AngleValue = new List<float>();
             this.ShotFrame = new List<int>();
             this.Pos = Vector2.zero;
+            this.ShotType = shotType;
         }
-        public PlayerModel()
+        public PlayerModel(GameConfig.PlayerShotType shotType)
         {
-            this.Init();
+            this.Init(shotType);
         }
 
         /***************************************************

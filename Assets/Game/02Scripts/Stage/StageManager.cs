@@ -8,7 +8,7 @@ namespace MainForce
     using System.Linq;
     using UnityEngine;
 
-    public class StageManager : MonoBehaviour
+    public class StageManager : SingletonMono<StageManager>
     {
         [SerializeField] private StageGroup[] Groups = null;
 
@@ -29,6 +29,32 @@ namespace MainForce
             {
                 this.useStage.Init();
             }
+        }
+
+
+        /// <summary>
+        /// 引数の座標がステージから出ていれば true
+        /// </summary>
+        /// <returns></returns>
+        public bool IsStageOutPos(Vector2 pos)
+        {
+            StageController[] controllers = this.useStage.Controllers;
+            int stageCount = controllers.Length;
+            bool[] isOutStagePos = Enumerable.Repeat<bool>(false, stageCount).ToArray();
+
+            // 全てのステージが入ってないかどうか調べる
+            for (int i = 0; i < controllers.Length; i++)
+            {
+                isOutStagePos[i] = controllers[i].IsOutPlayerPos(pos);
+
+                // false なら一個は入ってる
+                if (isOutStagePos[i] == false)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
 

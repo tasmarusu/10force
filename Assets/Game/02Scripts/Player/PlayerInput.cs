@@ -26,11 +26,19 @@ namespace MainForce
 
 
         /***************************************************
-        * クリックをした時
+        * クリック関係
         ************************************************** */
         public IObservable<PointerEventData> OnClick()
         {
             return judgeImage.OnPointerClickAsObservable();
+        }
+        public IObservable<PointerEventData> OnDown()
+        {
+            return judgeImage.OnPointerDownAsObservable();
+        }
+        public IObservable<PointerEventData> OnUp()
+        {
+            return judgeImage.OnPointerUpAsObservable();
         }
 
         /***************************************************

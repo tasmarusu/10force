@@ -14,3 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Player>k__BackingField:
     speed: 0.05
+    types: []
+  <Shot>k__BackingField:
+    <Penetrating>k__BackingField:
+      interval: 0.2
+      ID: 1
+      speed: 0.05

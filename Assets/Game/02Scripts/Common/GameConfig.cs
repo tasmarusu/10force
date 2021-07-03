@@ -69,6 +69,7 @@ namespace MainForce
             public class PenetratingData : ShotData
             {
                 public PlayerShotType ID = PlayerShotType.Penetrating;           // ID PlayerShotType‚ğQÆ‚·‚éˆ×‚ÌID
+                public float speed = 0.0f;
             }
         }
 

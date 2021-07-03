@@ -15,12 +15,10 @@ namespace MainForce
 
 
 
-
-
         ///***************************************************
         //* èâä˙âª
         //************************************************** */
-        //public GameObject GetBulletObjInPool(GameConfig.PlayerShotType type)
+        //public GameObject GetBulletObjInPool( type)
         //{
         //    GameObject getShot = null;
 

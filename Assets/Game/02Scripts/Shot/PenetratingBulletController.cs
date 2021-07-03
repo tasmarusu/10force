@@ -24,18 +24,22 @@ namespace MainForce
         ************************************************* */
         public void Init(Vector2 initPos, Quaternion initRotate)
         {
+            this.transform.position = initPos;
+            this.transform.rotation = initRotate;
+
             // 当たり判定開始
-            this.OnTriggerEnter2DAsObservable()
-                .Subscribe(collider2D =>
-                {
-                    this.OnHit(collider2D);
-                });
+            //this.OnTriggerExit2DAsObservable()
+            //    .Subscribe(collider2D =>
+            //    {
+            //        this.OnHit(collider2D);
+            //    });
 
             // Update の開始
             this.UpdateAsObservable()
                 .Subscribe(_ =>
                 {
-
+                    this.Move();
+                    this.OnHit();
                 });
         }
 
@@ -43,9 +47,27 @@ namespace MainForce
         /* *************************************************
         * 当たり判定
         ************************************************* */
-        private void OnHit(Collider2D collider)
+        private void OnHit()
         {
+            // 地形のエリア外
+            if (StageManager.Instance.IsStageOutPos(this.transform.position))
+            {
+                this.finishedSubject.OnNext(Unit.Default);
+            }
+        }
 
+
+        /* *************************************************
+        * 当たり判定
+        ************************************************* */
+        private void Move()
+        {
+            //float speed = GameConfig.Instance.Player.GetType(GameConfig.PlayerShotType.Penetrating).speed;
+            float speed = GameConfig.Instance.Shot.Penetrating.speed;
+
+            Vector2 pos = this.transform.position;
+            pos += (Vector2)this.transform.up * speed;
+            this.transform.position = pos;
         }
 
 

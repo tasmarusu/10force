@@ -11,7 +11,6 @@ namespace MainForce
 
     public partial class PlayerController
     {
-
         public class PlayerStatePenetrating : PlayerStateBase
         {
             private PenetratingBulletPool penetratingPool;
@@ -23,8 +22,12 @@ namespace MainForce
                 // 貫通弾の Pool を取得
                 this.penetratingPool = owner.poolProvider.GetPenetrating();
 
+                Debug.Log($"ショット");
+
                 // 取り合えず定期的に関数呼び出し
-                Observable.Interval(TimeSpan.FromSeconds(1.0f))
+                float intervale = GameConfig.Instance.Shot.Penetrating.interval;
+                Observable.Interval(TimeSpan.FromSeconds(intervale))
+                    .Where(_=> owner.isClicking == true)
                     .Subscribe(_ =>
                     {
                         this.OnShot(owner);
@@ -35,7 +38,6 @@ namespace MainForce
             {
                 base.OnUpdate(owner);
 
-                owner.Move();
             }
 
             public override void OnExit(PlayerController owner, PlayerStateBase prevState)
@@ -48,16 +50,16 @@ namespace MainForce
                 base.OnShot(owner);
 
                 // shotObj に Rent() で借りてきて、Unit.Default が来たら返すと行ける
-                var shotObj = this.penetratingPool.Rent();  // インスタンスを取得
-                shotObj.Init(Vector2.zero, Quaternion.identity);
-                shotObj.OnFinishedAsync
+                PenetratingBulletController shot = this.penetratingPool.Rent();  // インスタンスを取得
+                shot.Init(owner.transform.position, owner.transform.rotation);
+                shot.OnFinishedAsync
                     .Take(1)
                     .Subscribe(_ =>
                     {
-                        this.penetratingPool.Return(shotObj);
+                        this.penetratingPool.Return(shot);
                     });
 
-                Debug.Log($"ショット");
+                Debug.Log($"ショット1");
             }
         }
     }

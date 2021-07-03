@@ -7,6 +7,8 @@ namespace MainForce
     using System.Collections.Generic;
     using UnityEngine;
 
+
+
     public class PlayerManager : MonoBehaviour
     {
         [SerializeField] private PlayerController playerController = null;
@@ -20,14 +22,15 @@ namespace MainForce
         /***************************************************
         * 初期化
         ************************************************** */
-        public void Init(StageManager stageManager)
+        public void Init()
         {
             // プレイヤーの生成
             this.Player = Instantiate(playerController, this.playerParent);
 
             // プレイヤー関連の初期化
-            this.Model = new PlayerModel();
-            this.Player.Init(this.Model,stageManager);
+            GameConfig.PlayerShotType shotType = GameConfig.PlayerShotType.Penetrating;
+            this.Model = new PlayerModel(shotType);
+            this.Player.Init(this.Model);
         }
 
 
