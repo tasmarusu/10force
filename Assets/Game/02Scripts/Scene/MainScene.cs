@@ -19,8 +19,8 @@ namespace MainForce
     {
         [SerializeField] private PlayerManager playerManager = null;
         [SerializeField] private CameraManager cameraManager = null;
-        [SerializeField] private StageManager stageManager = null;
         [SerializeField] private TimeManager timeManager = null;
+        [SerializeField] private EnemyManager enemyManager = null;
 
         private CompositeDisposable disposables = new CompositeDisposable();
 
@@ -80,8 +80,9 @@ namespace MainForce
 
                 case State.Init:
                     this.playerManager.Init();
-                    this.stageManager.Init();
+                    StageManager.Instance.Init();
                     this.timeManager.Init();
+                    this.enemyManager.Init(this.timeManager);
                     this.ChangeState(State.CharaLarge);
 
                     break;
@@ -104,6 +105,7 @@ namespace MainForce
                         {
                             this.playerManager.OnUpdate();
                             this.timeManager.OnUpdate();
+                            this.enemyManager.OnUpdate();
                         }).AddTo(this.disposables);
 
                     break;

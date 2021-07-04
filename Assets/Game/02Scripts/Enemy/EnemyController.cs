@@ -40,7 +40,6 @@ namespace MainForce
                 case TagName.PlayerBullet:
                     // TODO ここのダメージ計算 GetComponent で取るの重いかも GameConfig みたいなやつから取る方法考えた方が良い？
                     float damage = col.gameObject.GetComponent<BulletController>().Damage;
-
                     break;
             }
         }

@@ -58,8 +58,6 @@ namespace MainForce
                     {
                         this.penetratingPool.Return(shot);
                     });
-
-                Debug.Log($"ƒVƒ‡ƒbƒg1");
             }
         }
     }

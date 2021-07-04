@@ -13,7 +13,7 @@ namespace MainForce
 
     public class StageGroup : MonoBehaviour
     {
-        [field: SerializeField] public StageController[] Controllers = null;
+        [field : SerializeField] public StageController[] Controllers = null;
 
 
         /***************************************************
