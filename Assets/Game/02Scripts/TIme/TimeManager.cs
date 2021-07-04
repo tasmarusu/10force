@@ -15,10 +15,12 @@ namespace MainForce
         [SerializeField] private TimeController tenDecimal = null;  // XY:ZW の Z
         [SerializeField] private TimeController oneDecimal = null;  // XY:ZW の W
 
-        private float remainTime = 80.0f;
+        private float startTime = 80.0f; 
+        private float remainTime = 0.0f;
 
 
         public int FrameCount { get; private set; } = -1;
+        public float ProgressTime { get { return this.startTime - this.remainTime; } }
 
         /***************************************************
         * 初期化
@@ -31,6 +33,7 @@ namespace MainForce
             this.oneDecimal.Init();
 
             this.FrameCount = 0;
+            this.remainTime = this.startTime;
         }
 
         /***************************************************
@@ -64,7 +67,6 @@ namespace MainForce
             float decimals = t - Mathf.Floor(t);
             int z = Mathf.FloorToInt(decimals * 10.0f);
             int w = Mathf.FloorToInt((decimals * 100.0f) - (z * 10.0f));
-            Debug.Log($"{t} {x} {y} {z} {w}");
             this.SetTimer(x, y, z, w);
         }
         // XY:ZWの時間をテキストに表示
