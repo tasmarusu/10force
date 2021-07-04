@@ -20,6 +20,7 @@ namespace MainForce
         [SerializeField] private PlayerManager playerManager = null;
         [SerializeField] private CameraManager cameraManager = null;
         [SerializeField] private StageManager stageManager = null;
+        [SerializeField] private TimeManager timeManager = null;
 
         private CompositeDisposable disposables = new CompositeDisposable();
 
@@ -80,6 +81,7 @@ namespace MainForce
                 case State.Init:
                     this.playerManager.Init();
                     this.stageManager.Init();
+                    this.timeManager.Init();
                     this.ChangeState(State.CharaLarge);
 
                     break;
@@ -101,6 +103,7 @@ namespace MainForce
                         .Subscribe(_ =>
                         {
                             this.playerManager.OnUpdate();
+                            this.timeManager.OnUpdate();
                         }).AddTo(this.disposables);
 
                     break;

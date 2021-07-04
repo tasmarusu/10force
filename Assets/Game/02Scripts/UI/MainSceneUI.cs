@@ -11,7 +11,6 @@ namespace MainForce
     {
         [SerializeField] private PlayerInput playerInput = null;
 
-
         public PlayerInput PlayerInput { get { return this.playerInput; } }
 
 
