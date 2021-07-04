@@ -51,7 +51,7 @@ namespace MainForce
 
                 // shotObj に Rent() で借りてきて、Unit.Default が来たら返すと行ける
                 PenetratingBulletController shot = this.penetratingPool.Rent();  // インスタンスを取得
-                shot.Init(owner.transform.position, owner.transform.rotation);
+                shot.Init(owner.transform.position, owner.transform.rotation, Color.white);
                 shot.OnFinishedAsync
                     .Take(1)
                     .Subscribe(_ =>

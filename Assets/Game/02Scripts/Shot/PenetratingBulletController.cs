@@ -13,6 +13,8 @@ namespace MainForce
 
     public class PenetratingBulletController : BulletController
     {
+        [SerializeField] private SpriteRenderer render2D = null;
+
         private readonly Subject<Unit> finishedSubject = new Subject<Unit>();
 
         // オブジェクトを使い終わった事を通知する
@@ -22,17 +24,11 @@ namespace MainForce
         /* *************************************************
         * 初期化
         ************************************************* */
-        public void Init(Vector2 initPos, Quaternion initRotate)
+        public void Init(Vector2 initPos, Quaternion initRotate, Color initColor)
         {
             this.transform.position = initPos;
             this.transform.rotation = initRotate;
-
-            // 当たり判定開始
-            //this.OnTriggerExit2DAsObservable()
-            //    .Subscribe(collider2D =>
-            //    {
-            //        this.OnHit(collider2D);
-            //    });
+            this.render2D.color = initColor;
 
             // Update の開始
             this.UpdateAsObservable()
