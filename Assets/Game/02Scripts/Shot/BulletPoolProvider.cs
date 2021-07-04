@@ -8,7 +8,7 @@ namespace MainForce
     using UnityEngine;
     using UniRx;
 
-    public class BulletPoolProvider : MonoBehaviour
+    public class BulletPoolProvider
     {
         [SerializeField] private PenetratingBulletController penetratingPrefab = null;
 

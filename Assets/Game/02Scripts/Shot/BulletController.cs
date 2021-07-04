@@ -10,6 +10,7 @@ namespace MainForce
 
     public class BulletController : MonoBehaviour
     {
-
+        // “G‚É“ü‚éƒ_ƒ[ƒW
+        public float Damage { get; private set; } = 10;
     }
 }

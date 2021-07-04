@@ -8,6 +8,23 @@ namespace MainForce
     using UnityEngine;
 
 
+    public enum TagName
+    {
+        Untagged = 0,
+        Respawn = 1,
+        Finish = 2,
+        EditorOnly = 3,
+        MainCamera = 4,
+        Player = 5,
+        GameController = 6,
+        Ground = 7,
+        PlayerBullet = 8,
+        Enemy = 9,
+        EnemyBullet = 10,
+    }
+
+
+
     [CreateAssetMenu()]
     public class GameConfig : ScriptableObject
     {
