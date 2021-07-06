@@ -16,6 +16,7 @@ namespace MainForce
         /// </summary>
         public void Init()
         {
+
         }
     }
 }

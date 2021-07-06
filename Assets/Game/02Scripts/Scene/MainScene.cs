@@ -83,6 +83,9 @@ namespace MainForce
                     StageManager.Instance.Init();
                     this.timeManager.Init();
                     this.enemyManager.Init(this.timeManager);
+
+                    MainSceneUI.Instance.Init(this.enemyManager.Model);
+
                     this.ChangeState(State.CharaLarge);
 
                     break;
@@ -106,6 +109,7 @@ namespace MainForce
                             this.playerManager.OnUpdate();
                             this.timeManager.OnUpdate();
                             this.enemyManager.OnUpdate();
+                            MainSceneUI.Instance.OnUpdate();
                         }).AddTo(this.disposables);
 
                     break;
@@ -121,7 +125,6 @@ namespace MainForce
         {
             yield return SceneManager.LoadSceneAsync("MainSceneUI", LoadSceneMode.Additive);
 
-            MainSceneUI.Instance.Init();
             this.ChangeState(State.Init);
         }
 

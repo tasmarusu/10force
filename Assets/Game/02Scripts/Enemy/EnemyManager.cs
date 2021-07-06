@@ -12,13 +12,19 @@ namespace MainForce
         [SerializeField] private EnemyController enemy = null;
         private TimeManager time;
 
+
+        public EnemyModel Model { get; private set; } = null;
+
+
         public void Init(TimeManager time)
         {
             this.time = time;
 
             // 敵の出現パターンを取得する
             // TODO 今は敵普通に出してる
-            enemy.Init();
+            this.Model = new EnemyModel();
+            this.Model.SetData();
+            this.enemy.Init(this.Model);
         }
 
 

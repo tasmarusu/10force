@@ -22,10 +22,8 @@ namespace MainForce
                 // 貫通弾の Pool を取得
                 this.penetratingPool = owner.poolProvider.GetPenetrating();
 
-                Debug.Log($"ショット");
-
                 // 取り合えず定期的に関数呼び出し
-                float intervale = GameConfig.Instance.Shot.Penetrating.interval;
+                float intervale = GameConfig.Instance.Shot.Penetrating.Interval;
                 Observable.Interval(TimeSpan.FromSeconds(intervale))
                     .Where(_=> owner.isClicking == true)
                     .Subscribe(_ =>

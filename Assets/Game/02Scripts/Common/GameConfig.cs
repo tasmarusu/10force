@@ -78,16 +78,20 @@ namespace MainForce
             [System.Serializable]
             public class ShotData
             {
-                public float interval = 0.0f;
+                public float Interval = 0.0f;
+                public float Damage = 0.0f;
+                public PlayerShotType ID = PlayerShotType.Penetrating;           // ID PlayerShotType‚ğQÆ‚·‚éˆ×‚ÌID
+                public AnimationCurve SpeedCurve = null;
+                public float SpeedParam = 0.0f;
             }
 
             // ŠÑ’Ê’e
             [System.Serializable]
             public class PenetratingData : ShotData
             {
-                public PlayerShotType ID = PlayerShotType.Penetrating;           // ID PlayerShotType‚ğQÆ‚·‚éˆ×‚ÌID
-                public float speed = 0.0f;
+
             }
+
         }
 
 

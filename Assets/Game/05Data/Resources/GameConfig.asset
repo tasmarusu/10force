@@ -17,6 +17,31 @@ MonoBehaviour:
     types: []
   <Shot>k__BackingField:
     <Penetrating>k__BackingField:
-      interval: 0.2
+      Interval: 0.2
+      Damage: 5
       ID: 1
-      speed: 0.05
+      SpeedCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0.0073058605
+          value: 0.9009357
+          inSlope: 0.5864355
+          outSlope: 0.5864355
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0.33333334
+        - serializedVersion: 3
+          time: 0.17549634
+          value: 0.9995686
+          inSlope: 0.5864355
+          outSlope: 0.5864355
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      SpeedParam: 0.05
