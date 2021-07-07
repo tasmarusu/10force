@@ -56,8 +56,7 @@
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\UniTask-master\src\UniTask\Assets\Editor\EditorRunnerChecker.cs" />
-    <Compile Include="Assets\UniTask-master\src\UniTask\Assets\Editor\PackageExporter.cs" />
+    <Compile Include="Assets\Game\02Scripts\Enemy\Editor\EnemyAppearPatternEditor.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -711,6 +710,9 @@
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.2D.Sprite.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.2D.Sprite.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
     </Reference>
@@ -733,25 +735,21 @@
       <Project>{3A825960-0485-2832-7E2D-94BCB13CCCB2}</Project>
       <Name>UniRx</Name>
     </ProjectReference>
-    <ProjectReference Include="UniTask.Addressables.csproj">
-      <Project>{724DA343-E013-8DCB-0CED-75DAE3D01356}</Project>
-      <Name>UniTask.Addressables</Name>
+    <ProjectReference Include="UniTask.TextMeshPro.csproj">
+      <Project>{0663D134-14DC-027A-0133-BB00A7D04017}</Project>
+      <Name>UniTask.TextMeshPro</Name>
     </ProjectReference>
     <ProjectReference Include="UniTask.DOTween.csproj">
       <Project>{AE2CD803-213E-3993-8E16-A2EE8286D842}</Project>
       <Name>UniTask.DOTween</Name>
     </ProjectReference>
-    <ProjectReference Include="TempAsm.csproj">
-      <Project>{50FAD65F-0694-6DDA-A40B-A6107E5FFDD1}</Project>
-      <Name>TempAsm</Name>
-    </ProjectReference>
     <ProjectReference Include="UniTask.csproj">
       <Project>{34FA82B1-AC11-F49B-19B4-1D3F84AF0DDF}</Project>
       <Name>UniTask</Name>
     </ProjectReference>
-    <ProjectReference Include="UniTask.TextMeshPro.csproj">
-      <Project>{0663D134-14DC-027A-0133-BB00A7D04017}</Project>
-      <Name>UniTask.TextMeshPro</Name>
+    <ProjectReference Include="UniTask.Addressables.csproj">
+      <Project>{724DA343-E013-8DCB-0CED-75DAE3D01356}</Project>
+      <Name>UniTask.Addressables</Name>
     </ProjectReference>
     <ProjectReference Include="UniTask.Linq.csproj">
       <Project>{4CD52DED-B39C-F238-C1EC-16B6AADFA76C}</Project>
