@@ -10,8 +10,6 @@ namespace MainForce
 
     public class EnemyAppearPattern : MonoBehaviour
     {
-        [field: SerializeField] public List<EnemyController> UseEnemys { get; private set; } = new List<EnemyController>();
-
         [field: SerializeField] public List<Order> Orders { get; private set; } = new List<Order>();
 
         [System.Serializable]
@@ -20,9 +18,9 @@ namespace MainForce
             // 敵の種類
             [field: SerializeField] public EnemyController enemy { get; private set; } = null;
             // 出現する秒数
-            [field: SerializeField] public float timer { get; private set; } = 0.0f;
+            [field: SerializeField] public float timer { get; set; } = 0.0f;
             // 強化アイテムを落とすかどうか
-            [field: SerializeField] public bool isDrop { get; private set; } = false;
+            [field: SerializeField] public bool isDrop { get; set; } = false;
             // 開始座標
             [field: SerializeField] public Vector2 pos { get; private set; } = Vector2.zero;
             // 開始角度

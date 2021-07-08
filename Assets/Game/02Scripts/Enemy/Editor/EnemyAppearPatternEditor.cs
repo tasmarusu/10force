@@ -26,25 +26,39 @@ namespace MainForce
             // EnemyAppearPattern の取得
             EnemyAppearPattern pattern = target as EnemyAppearPattern;
 
-            for (int i = 0; i < pattern.UseEnemys.Count; i++)
-            {
-                EnemyController enemy = (EnemyController)EditorGUILayout.ObjectField(pattern.UseEnemys[i], typeof(EnemyController), true);
 
-                // このアイテムの削除
-                if (GUILayout.Button("削除"))
+            ////////////////////////////////////////////////////////////////////////////////////////
+            /// 敵の追加
+            ////////////////////////////////////////////////////////////////////////////////////////
+            GUILayout.Label("------敵の追加------");
+            // リソースから取得
+            string path = "Enemy";
+            EnemyController[] enemys = Resources.LoadAll<EnemyController>(path);
+
+            // このアイテムの削除
+            for (int i = 0; i < enemys.Length; i++)
+            {
+                using (new EditorGUILayout.HorizontalScope())
                 {
-                    pattern.UseEnemys.Remove(enemy);
+                    EnemyController enemy = (EnemyController)EditorGUILayout.ObjectField(enemys[i], typeof(EnemyController), true);
+                    // このアイテムの削除
+                    if (GUILayout.Button($"敵{i + 1}追加"))
+                    {
+                        // 一体追加
+                        this.AddEnemy(pattern, enemy);
+                    }
                 }
             }
 
 
 
-            // 一体追加
-            this.AddEnemy(pattern);
-            // 全ての敵データの削除
-            this.AllDelete(pattern);
-            GUILayout.Space(20);
 
+
+            ////////////////////////////////////////////////////////////////////////////////////////
+            /// 敵の設定を表示
+            ////////////////////////////////////////////////////////////////////////////////////////
+            GUILayout.Space(20);
+            GUILayout.Label("------敵の情報------");
             for (int i = 0; i < pattern.Orders.Count; i++)
             {
                 EnemyAppearPattern.Order item = pattern.Orders[i];
@@ -94,20 +108,77 @@ namespace MainForce
             }
 
 
+
+            ////////////////////////////////////////////////////////////////////////////////////////
+            /// ソート各種
+            ////////////////////////////////////////////////////////////////////////////////////////
+            GUILayout.Space(20);
+            GUILayout.Label("------敵の情報ソート------");
+            using (new GUILayout.HorizontalScope())
+            {
+                // 時間ソート
+                if (GUILayout.Button($"敵番号 降順"))
+                {
+                    pattern.Orders.Sort((a, b) => a.enemy.name.CompareTo(b.enemy.name));
+                }
+                else if (GUILayout.Button($"敵番号 昇順"))
+                {
+                    pattern.Orders.Sort((a, b) => b.enemy.name.CompareTo(a.enemy.name));
+                }
+            }
+            using (new GUILayout.HorizontalScope())
+            {
+                // 時間ソート
+                if (GUILayout.Button($"時間 降順"))
+                {
+                    pattern.Orders.Sort((a, b) => a.timer.CompareTo(b.timer));
+                }
+                else if (GUILayout.Button($"時間 昇順"))
+                {
+                    pattern.Orders.Sort((a, b) => b.timer.CompareTo(a.timer));
+                }
+            }
+            using (new GUILayout.HorizontalScope())
+            {
+                // 強化するかしないかソート
+                if (GUILayout.Button($"強化 降順"))
+                {
+                    pattern.Orders.Sort((a, b) => a.isDrop.CompareTo(b.isDrop));
+                }
+                else if (GUILayout.Button($"強化 昇順"))
+                {
+                    pattern.Orders.Sort((a, b) => b.isDrop.CompareTo(a.isDrop));
+                }
+            }
+
+
+
+            ////////////////////////////////////////////////////////////////////////////////////////
+            /// 全ての敵を生成
+            ////////////////////////////////////////////////////////////////////////////////////////
+            GUILayout.Space(20);
+            GUILayout.Label("------敵の情報削除------");
+            this.AllDelete(pattern);
+
+
+            ////////////////////////////////////////////////////////////////////////////////////////
+            /// 全ての敵データの削除
+            ////////////////////////////////////////////////////////////////////////////////////////
+            GUILayout.Space(20);
+            GUILayout.Label("------敵の情報削除------");
+            this.AllDelete(pattern);
         }
 
 
 
         /// <summary>
-        /// 一体追加
+        /// 一体追加 enemy が追加
         /// </summary>
-        private void AddEnemy(EnemyAppearPattern pattern)
+        private void AddEnemy(EnemyAppearPattern pattern, EnemyController enemy)
         {
-            if (GUILayout.Button("1体追加"))
-            {
-                EnemyAppearPattern.Order item = new EnemyAppearPattern.Order();
-                pattern.Orders.Add(item);
-            }
+            EnemyAppearPattern.Order item = new EnemyAppearPattern.Order();
+            item.SetEnemy(enemy);
+            pattern.Orders.Add(item);
         }
 
         /// <summary>
