@@ -9,28 +9,32 @@ namespace MainForce
 
     public class EnemyManager : MonoBehaviour
     {
-        [SerializeField] private EnemyController enemy = null;
-        private TimeManager time;
+        [SerializeField] private EnemyAppearPattern[] enemyPatterns = null;
 
+
+        private EnemyAppearPattern useEnemys = null;
 
         public EnemyModel Model { get; private set; } = null;
+        public TimeManager Time { get; private set; } = null;
 
 
-        public void Init(TimeManager time)
+        public void Init(TimeManager time, int stageNum)
         {
-            this.time = time;
+            this.Time = time;
 
             // 敵の出現パターンを取得する
             // TODO 今は敵普通に出してる
-            this.Model = new EnemyModel();
-            this.Model.SetData();
-            this.enemy.Init(this.Model);
+
+            this.useEnemys = Instantiate(this.enemyPatterns[stageNum], this.transform);
+            IList<EnemyAppearPattern.Order> roOrders = this.useEnemys.Orders.AsReadOnly();
+            this.Model = new EnemyModel(roOrders);
+            this.useEnemys.Init(this);
         }
 
 
         public void OnUpdate()
         {
-            enemy.OnUpdate();
+            this.useEnemys.OnUpdate();
         }
     }
 }

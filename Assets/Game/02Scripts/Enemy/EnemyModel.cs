@@ -15,11 +15,11 @@ namespace MainForce
         [System.Serializable]
         public class DataConfig
         {
-            public int ID = -1;
-            public int NowHP = 0;
-            public int MaxHP = 0;
-            public bool IsArrive = true;
-            public bool IsAppear = false;
+            public int ID = -1;             // ID(EnemyConfig.TypeÇ≈ÇÕÇ»Ç¢)
+            public int NowHP = 0;           // åªç›ÇÃHP
+            public int MaxHP = 0;           // ç≈ëÂHP
+            public bool IsArrive = true;    // ê∂Ç´ÇƒÇ¢ÇÈÇ©(NowHP>0Ç©Ç«Ç§Ç©)
+            public bool IsAppeard = false;  // èoåªÇµÇΩÇ©Ç«Ç§Ç©
 
             public DataConfig(int ID, int HP)
             {
@@ -27,29 +27,41 @@ namespace MainForce
                 this.NowHP = HP;
                 this.MaxHP = HP;
             }
+
+
+            /// <summary>
+            /// ID ÇÃìGÇ… damage Çó^Ç¶ÇÈ
+            /// </summary>
+            /// <param name="ID"></param>
+            /// <param name="damage"></param>
+            public void Damage(int damage)
+            {
+                this.NowHP -= damage;
+            }
         }
 
 
-        public void SetData()
+        /// <summary>
+        /// ÉfÅ[É^Çê∂ê¨ÇµÇƒìnÇ∑
+        /// </summary>
+        /// <param name="count"> ìGÇÃêî </param>
+        /// <param name="HPs"> ìGÇÃHP </param>
+        public EnemyModel(IList<EnemyAppearPattern.Order> roOrders)
         {
-            this.Data = new DataConfig[1] { new DataConfig(1, 100) };
+            this.Data = new DataConfig[roOrders.Count];
+            for (int i = 0; i < this.Data.Length; i++)
+            {
+                this.Data[i] = new DataConfig((i + 1), GameConfig.Instance.Enemy.GetStartHP(roOrders[i].enemyObj.TypeID));
+            }
         }
 
 
         public void Appear(int ID)
         {
-            this.Data[0].IsAppear = true;
+            this.Data[0].IsAppeard = true;
         }
 
 
-        /// <summary>
-        /// ID ÇÃìGÇ… damage Çó^Ç¶ÇÈ
-        /// </summary>
-        /// <param name="ID"></param>
-        /// <param name="damage"></param>
-        public void Damage(int ID, int damage)
-        {
-            this.Data[0].NowHP -= damage;
-        }
+
     }
 }

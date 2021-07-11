@@ -29,6 +29,7 @@ namespace MainForce
     public class GameConfig : ScriptableObject
     {
         [field : SerializeField] public PlayerConfig Player { get; private set; } = null;
+        [field: SerializeField] public EnemyConfig Enemy { get; private set; } = null;
         [field: SerializeField] public ShotConfig Shot { get; private set; } = null;
 
 
@@ -70,6 +71,92 @@ namespace MainForce
 
 
         [System.Serializable]
+        public class EnemyConfig
+        {
+            // 出現してからの待機時間
+            [field: SerializeField] public float WaitTime { get; private set; } = 1.0f;
+
+            [field:SerializeField] public NoneConfig None { get; private set; }
+            [field:SerializeField] public ChaseConfig Chase { get; private set; }
+
+            public enum Type
+            {
+                None = 1,       // 何もしない敵
+                Chase = 5,      // 追跡する敵
+                OneShot = 6,    // 前方に１発ずつ打ち続ける敵
+                ThreeShot = 7,  // 前方に３発ずつ打ち続ける敵
+            }
+
+
+            /// <summary>
+            /// HPを取得
+            /// </summary>
+            /// <param name="type"> 敵のデータ </param>
+            /// <returns></returns>
+            public int GetStartHP(Type type)
+            {
+                int hp = 0;
+
+                switch (type)
+                {
+                    case Type.None:
+                        hp = this.None.HP;
+                        break;
+
+                    case Type.Chase:
+                        hp = this.Chase.HP;
+                        break;
+
+                    case Type.OneShot:
+                        hp = this.None.HP;
+                        break;
+
+                    case Type.ThreeShot:
+
+                        break;
+                }
+                return hp;
+            }
+
+
+            /// <summary>
+            /// 全敵に対応する可変データ
+            /// </summary>
+            [System.Serializable]
+            public class BaseData
+            {
+                // このタイプのID
+                [field: SerializeField] public Type ID { get; private set; } = Type.Chase;
+                // 敵のPrefabデータ
+                [field: SerializeField] public EnemyController Enemy { get; private set; } = null;
+                // 敵のHP
+                [field: SerializeField] public int HP { get; private set; } = 0;
+            }
+
+            /// <summary>
+            /// 何もしない敵キャラ
+            /// </summary>
+            [System.Serializable]
+            public class NoneConfig : BaseData
+            {
+
+            }
+
+
+            /// <summary>
+            /// 追跡する敵キャラ
+            /// </summary>
+            [System.Serializable]
+            public class ChaseConfig : BaseData
+            {
+                // 敵の追跡スピード
+                [field: SerializeField] public float Speed { get; private set; } = 0.1f;
+            }
+        }
+
+
+
+        [System.Serializable]
         public class ShotConfig
         {
             [field: SerializeField] public PenetratingData Penetrating { get; private set; } = null;
@@ -91,7 +178,6 @@ namespace MainForce
             {
 
             }
-
         }
 
 

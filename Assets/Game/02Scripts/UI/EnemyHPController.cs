@@ -24,7 +24,6 @@ namespace MainForce
         {
             float now = this.model.NowHP;
             float max = this.model.MaxHP;
-            Debug.Log($"now {now} max {max}");
 
             hpImage.fillAmount = now / max;
         }

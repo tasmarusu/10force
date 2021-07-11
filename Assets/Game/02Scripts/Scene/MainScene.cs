@@ -82,7 +82,7 @@ namespace MainForce
                     this.playerManager.Init();
                     StageManager.Instance.Init();
                     this.timeManager.Init();
-                    this.enemyManager.Init(this.timeManager);
+                    this.enemyManager.Init(this.timeManager, 0);
 
                     MainSceneUI.Instance.Init(this.enemyManager.Model);
 

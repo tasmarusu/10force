@@ -15,6 +15,8 @@ namespace MainForce
     {
 #if UNITY_EDITOR
 
+        private bool isBaseInspector = false;
+
         /// <summary>
         /// InspectorのGUIを更新
         /// </summary>
@@ -22,18 +24,49 @@ namespace MainForce
         {
             ////元のInspector部分を表示
             //base.OnInspectorGUI();
+            string baseWord = this.isBaseInspector == true ? "非表示" : "元のInspector部分を表示";
+            this.isBaseInspector = EditorGUILayout.ToggleLeft(baseWord, this.isBaseInspector);
+            if (this.isBaseInspector == true)
+            {
+                EditorGUILayout.LabelField("");
+                base.OnInspectorGUI();
+                EditorGUILayout.Space(120);
+            }
+
+            //EditorGUILayout.HelpBox("たすけて～～", MessageType.None);
+            //EditorGUILayout.HelpBox("たすけて～～", MessageType.Info);
+            //EditorGUILayout.HelpBox("たすけて～～", MessageType.Error);
+            //EditorGUILayout.HelpBox("たすけて～～", MessageType.Warning);
+
+            //EditorGUI.BeginDisabledGroup(true);
+            //EditorGUILayout.ObjectField("EnemyAppearPatternEditor", MonoScript.FromMonoBehaviour((MonoBehaviour)target), typeof(MonoScript), false);
+            //EditorGUI.EndDisabledGroup();
 
             // EnemyAppearPattern の取得
             EnemyAppearPattern pattern = target as EnemyAppearPattern;
 
+            // リソースから取得
+            string path = "Enemy";
+            EnemyController[] enemys = Resources.LoadAll<EnemyController>(path);
+
+
+
+            ////////////////////////////////////////////////////////////////////////////////////////
+            /// 敵の生成、削除
+            ////////////////////////////////////////////////////////////////////////////////////////
+            if (GUILayout.Button($"全ての敵を再生成"))
+            {
+                this.CreateEnemy(pattern);
+            }
+            //if (GUILayout.Button($"表示している敵全削除"))
+            //{
+            //    this.AllDeleteEnemy(pattern);
+            //}
 
             ////////////////////////////////////////////////////////////////////////////////////////
             /// 敵の追加
             ////////////////////////////////////////////////////////////////////////////////////////
             GUILayout.Label("------敵の追加------");
-            // リソースから取得
-            string path = "Enemy";
-            EnemyController[] enemys = Resources.LoadAll<EnemyController>(path);
 
             // このアイテムの削除
             for (int i = 0; i < enemys.Length; i++)
@@ -87,8 +120,10 @@ namespace MainForce
                         EditorGUI.EndDisabledGroup();
 
                         // 各データの表示
-                        GUILayout.Label("種類");
-                        EnemyController enemy = (EnemyController)EditorGUILayout.ObjectField(item.enemy, typeof(EnemyController), true);
+                        GUILayout.Label("参照");
+                        EnemyController enemyPrefab = (EnemyController)EditorGUILayout.ObjectField(item.enemyPrefab, typeof(EnemyController), true);
+                        GUILayout.Label("敵");
+                        EnemyController enemyObj = (EnemyController)EditorGUILayout.ObjectField(item.enemyObj, typeof(EnemyController), true);
                         GUILayout.Label("時間");
                         float timer = EditorGUILayout.FloatField(item.timer);
                         GUILayout.Label("強化");
@@ -97,6 +132,7 @@ namespace MainForce
                         // このアイテムの削除
                         if (GUILayout.Button("削除"))
                         {
+                            Destroy(item.enemyObj);
                             pattern.Orders.Remove(item);
                         }
 
@@ -119,11 +155,11 @@ namespace MainForce
                 // 時間ソート
                 if (GUILayout.Button($"敵番号 降順"))
                 {
-                    pattern.Orders.Sort((a, b) => a.enemy.name.CompareTo(b.enemy.name));
+                    pattern.Orders.Sort((a, b) => a.enemyPrefab.name.CompareTo(b.enemyPrefab.name));
                 }
                 else if (GUILayout.Button($"敵番号 昇順"))
                 {
-                    pattern.Orders.Sort((a, b) => b.enemy.name.CompareTo(a.enemy.name));
+                    pattern.Orders.Sort((a, b) => b.enemyPrefab.name.CompareTo(a.enemyPrefab.name));
                 }
             }
             using (new GUILayout.HorizontalScope())
@@ -158,15 +194,7 @@ namespace MainForce
             ////////////////////////////////////////////////////////////////////////////////////////
             GUILayout.Space(20);
             GUILayout.Label("------敵の情報削除------");
-            this.AllDelete(pattern);
-
-
-            ////////////////////////////////////////////////////////////////////////////////////////
-            /// 全ての敵データの削除
-            ////////////////////////////////////////////////////////////////////////////////////////
-            GUILayout.Space(20);
-            GUILayout.Label("------敵の情報削除------");
-            this.AllDelete(pattern);
+            this.AllDeleteData(pattern);
         }
 
 
@@ -179,16 +207,54 @@ namespace MainForce
             EnemyAppearPattern.Order item = new EnemyAppearPattern.Order();
             item.SetEnemy(enemy);
             pattern.Orders.Add(item);
+            pattern.Orders[pattern.Orders.Count - 1].enemyObj = Instantiate(enemy, pattern.transform);
         }
 
         /// <summary>
         /// 全ての敵データの削除
         /// </summary>
-        private void AllDelete(EnemyAppearPattern pattern)
+        private void AllDeleteData(EnemyAppearPattern pattern)
         {
             if (GUILayout.Button("全削除"))
             {
+                this.AllDeleteEnemy(pattern);
                 pattern.Orders.Clear();
+            }
+        }
+
+
+        /// <summary>
+        /// 敵の全データ生成
+        /// </summary>
+        /// <param name="pattern"></param>
+        private void CreateEnemy(EnemyAppearPattern pattern)
+        {
+            this.AllDeleteEnemy(pattern);
+
+            for (int i = 0; i < pattern.Orders.Count; i++)
+            {
+                if (pattern.Orders[i].enemyPrefab != null)
+                {
+                    pattern.Orders[i].enemyObj = Instantiate(pattern.Orders[i].enemyPrefab, pattern.transform);
+                }
+                else
+                {
+                    Debug.LogError($"{i}番号の敵が設定されていません");
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// 表示している敵の全削除
+        /// </summary>
+        /// <param name="pattern"></param>
+        private void AllDeleteEnemy(EnemyAppearPattern pattern)
+        {
+            int count = pattern.transform.childCount;
+            for (int i = 0; i < count; i++)
+            {
+                DestroyImmediate(pattern.transform.GetChild(0).gameObject);
             }
         }
 

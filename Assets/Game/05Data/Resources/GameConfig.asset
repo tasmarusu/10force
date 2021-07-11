@@ -15,6 +15,17 @@ MonoBehaviour:
   <Player>k__BackingField:
     speed: 0.05
     types: []
+  <Enemy>k__BackingField:
+    <WaitTime>k__BackingField: 1
+    <None>k__BackingField:
+      <ID>k__BackingField: 1
+      <Enemy>k__BackingField: {fileID: 0}
+      <HP>k__BackingField: 100
+    <Chase>k__BackingField:
+      <ID>k__BackingField: 5
+      <Enemy>k__BackingField: {fileID: 5750306608864484308, guid: a4f2452a207a680448fb4bd926355fc8, type: 3}
+      <HP>k__BackingField: 100
+      <Speed>k__BackingField: 0.1
   <Shot>k__BackingField:
     <Penetrating>k__BackingField:
       Interval: 0.2

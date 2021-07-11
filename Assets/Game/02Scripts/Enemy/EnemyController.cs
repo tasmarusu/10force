@@ -12,12 +12,17 @@ namespace MainForce
 
     public class EnemyController : MonoBehaviour
     {
-        // 敵の ID
-        public int ID { get; private set; } = -1;
+        // 敵自身が持ってるタイプ
+        [field: SerializeField] public GameConfig.EnemyConfig.Type TypeID { get; private set; } = GameConfig.EnemyConfig.Type.None;
 
-        private EnemyModel model=null;
+        private EnemyModel.DataConfig model = null;
 
-        public void Init(EnemyModel model)
+
+        /// <summary>
+        /// 初期化
+        /// </summary>
+        /// <param name="model"> このモデルのデータ </param>
+        public void Init(EnemyModel.DataConfig model)
         {
             this.model = model;
 
@@ -25,12 +30,23 @@ namespace MainForce
             {
                 this.OnHit(col);
             });
+
+            this.gameObject.SetActive(false);
+        }
+
+        
+        /// <summary>
+        /// 動き始める時に呼ばれる
+        /// </summary>
+        public void OnStart()
+        {
+            this.gameObject.SetActive(true);
         }
 
 
         public void OnUpdate()
         {
-            
+
         }
 
 
@@ -44,9 +60,26 @@ namespace MainForce
                 case TagName.PlayerBullet:
                     // TODO ここのダメージ計算 GetComponent で取るの重いかも GameConfig みたいなやつから取る方法考えた方が良い？
                     float damage = col.gameObject.GetComponent<BulletController>().Damage;
-                    this.model.Damage(1, 10);
+                    this.model.Damage(10);
+
+                    // HPが無くなったら死ぬ
+                    this.DestroyNoneHP();
 
                     break;
+            }
+        }
+
+
+
+        /// <summary>
+        /// HPが無くなった
+        /// </summary>
+        private void DestroyNoneHP()
+        {
+            if (this.model.NowHP <= 0.0f)
+            {
+                this.model.IsArrive = false;
+                gameObject.SetActive(false);
             }
         }
     }
