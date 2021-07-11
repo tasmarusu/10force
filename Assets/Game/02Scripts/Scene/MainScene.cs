@@ -84,7 +84,7 @@ namespace MainForce
                     this.timeManager.Init();
                     this.enemyManager.Init(this.timeManager, 0);
 
-                    MainSceneUI.Instance.Init(this.enemyManager.Model);
+                    MainSceneUI.Instance.Init(this.enemyManager.Model,this.cameraManager.WorldCamera);
 
                     this.ChangeState(State.CharaLarge);
 

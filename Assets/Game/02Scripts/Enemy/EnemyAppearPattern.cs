@@ -68,20 +68,17 @@ namespace MainForce
                 EnemyModel.DataConfig data = this.enemyManager.Model.Data[i];
 
                 // この敵が出現したかどうか
-                if (data.IsAppeard == true)
+                if (data.State == EnemyModel.StateConfig.Arrive)
                 {
-                    // 出現しているので生存していれば OnUpdate が呼ばれる
-                    if (data.IsArrive == true)
-                    {
-                        this.Orders[i].enemyObj.OnUpdate();
-                    }
+                    this.Orders[i].enemyObj.OnUpdate();
                 }
-                else
+                // まだ出現していない
+                else if (data.State == EnemyModel.StateConfig.Wait)
                 {
-                    // 出現していないので、時間が来ていればアクティブ化にする
+                    // 時間が来ていればアクティブ化にする
                     if (this.enemyManager.Time.ProgressTime >= this.Orders[i].timer)
                     {
-                        data.IsAppeard = true;
+                        data.Appear();
                         this.Orders[i].enemyObj.OnStart();
                     }
                 }

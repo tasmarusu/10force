@@ -46,7 +46,7 @@ namespace MainForce
 
         public void OnUpdate()
         {
-
+            this.model.Pos = this.transform.position;
         }
 
 
@@ -63,7 +63,7 @@ namespace MainForce
                     this.model.Damage(10);
 
                     // HP‚ª–³‚­‚È‚Á‚½‚çŽ€‚Ê
-                    this.DestroyNoneHP();
+                    this.Des();
 
                     break;
             }
@@ -74,11 +74,10 @@ namespace MainForce
         /// <summary>
         /// HP‚ª–³‚­‚È‚Á‚½
         /// </summary>
-        private void DestroyNoneHP()
+        private void Des()
         {
-            if (this.model.NowHP <= 0.0f)
+            if (this.model.State == EnemyModel.StateConfig.Des)
             {
-                this.model.IsArrive = false;
                 gameObject.SetActive(false);
             }
         }

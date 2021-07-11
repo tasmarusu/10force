@@ -12,14 +12,32 @@ namespace MainForce
     {
         public DataConfig[] Data { get; private set; } = null;
 
+
+        /// ステート
+        public enum StateConfig
+        {
+            /// <summary>
+            /// 出現していなく、待機状態
+            /// </summary>
+            Wait = 0,
+            /// <summary>
+            /// 出現して、生存している
+            /// </summary>
+            Arrive = 5,
+            /// <summary>
+            /// 死亡
+            /// </summary>
+            Des = 10,
+        }
+
         [System.Serializable]
         public class DataConfig
         {
             public int ID = -1;             // ID(EnemyConfig.Typeではない)
             public int NowHP = 0;           // 現在のHP
             public int MaxHP = 0;           // 最大HP
-            public bool IsArrive = true;    // 生きているか(NowHP>0かどうか)
-            public bool IsAppeard = false;  // 出現したかどうか
+            public Vector2 Pos = Vector2.zero;  // 座標
+            public StateConfig State { get; private set; } = StateConfig.Wait;
 
             public DataConfig(int ID, int HP)
             {
@@ -37,6 +55,21 @@ namespace MainForce
             public void Damage(int damage)
             {
                 this.NowHP -= damage;
+
+                // 死亡
+                if (this.NowHP <= 0.0f)
+                {
+                    this.State = StateConfig.Des;
+                }
+            }
+
+
+            /// <summary>
+            /// 出現
+            /// </summary>
+            public void Appear()
+            {
+                this.State = StateConfig.Arrive;
             }
         }
 
@@ -56,9 +89,24 @@ namespace MainForce
         }
 
 
-        public void Appear(int ID)
+
+        /// <summary>
+        /// アクティブな敵の数
+        /// </summary>
+        /// <returns></returns>
+        public int GetActiveCount()
         {
-            this.Data[0].IsAppeard = true;
+            int count = 0;
+
+            for (int i = 0; i < this.Data.Length; i++)
+            {
+                if (this.Data[i].State == EnemyModel.StateConfig.Arrive)
+                {
+                    count++;
+                }
+            }
+
+            return count;
         }
 
 

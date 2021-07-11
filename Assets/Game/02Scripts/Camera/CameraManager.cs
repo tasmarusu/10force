@@ -9,7 +9,7 @@ namespace MainForce
 
     public class CameraManager : MonoBehaviour
     {
-        [SerializeField] private new Camera camera = null;
+        [field:SerializeField] public new Camera WorldCamera { get; private set; } = null;
 
         /// <summary>
         /// ‰Šú‰»
