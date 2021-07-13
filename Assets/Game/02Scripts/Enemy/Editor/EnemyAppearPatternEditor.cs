@@ -195,6 +195,21 @@ namespace MainForce
             GUILayout.Space(20);
             GUILayout.Label("------“G‚Ìî•ñíœ------");
             this.AllDeleteData(pattern);
+
+
+            ////////////////////////////////////////////////////////////////////////////////////////
+            /// ’l‚ª•ÏX‚³‚ê‚½‚ç•Û‘¶
+            ////////////////////////////////////////////////////////////////////////////////////////
+            if (GUI.changed)
+            {
+                EditorUtility.SetDirty(pattern);
+            }
+
+            // UndoARedoÀs‚ÉÄ•`‰æ
+            Undo.undoRedoPerformed += () =>
+            {
+                this.Repaint();
+            };
         }
 
 
